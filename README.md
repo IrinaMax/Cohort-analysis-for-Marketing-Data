@@ -13,3 +13,16 @@ Here I perform cohort analysis for marketing using R by steps:
 4.Visualize Results: Create visualizations, such as cohort retention curves, heatmaps, or line charts, to visualize the behavior of different cohorts over time. Visualizations make it easier to identify trends and patterns in cohort performance.
 
 5.Interpret and Analyze: Analyze the results of your cohort analysis to identify actionable insights and opportunities for marketing optimization. Look for patterns, anomalies, and correlations between cohort behavior and marketing initiatives.
+
+Performing cohort analysis based on geographic location involves dividing customers into cohorts based on their location (e.g., country, region, city) and analyzing their behavior and performance metrics over time.
+The steps are similar:
+Data Preparation: Gather data on customer transactions or interactions, including geographic information such as country, region, or city.
+
+Define Cohorts: Determine how you want to divide customers into cohorts based on geographic location. For example, you could create cohorts based on the country or region where customers are located.
+
+Calculate Metrics: Calculate relevant metrics for each geographic cohort, such as customer retention rate, average order value, conversion rate, etc.
+
+Visualize Results: Create visualizations to visualize the behavior and performance of different geographic cohorts over time. This can include cohort retention curves, heatmaps, or line charts.
+
+Interpret and Analyze: Analyze the results of your cohort analysis to identify insights and opportunities for marketing optimization based on geographic location.
+![Cohort Retention Rate Over time](https://github.com/IrinaMax/Cohort-analysis-for-Marketing-Data/assets/16123495/bead2af4-576b-44ed-a21c-aa6983846413)
