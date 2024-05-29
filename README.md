@@ -18,7 +18,7 @@ Performing cohort analysis based on geographic location involves dividing custom
 The steps are similar:
 Data Preparation: Gather data on customer transactions or interactions, including geographic information such as country, region, or city.
 
-Define Cohorts: Determine how you want to divide customers into cohorts based on geographic location. For example, you could create cohorts based on the country or region where customers are located.
+Define Cohorts will depend of how you want to divide customers into cohorts based on geographic location. For example, you could create cohorts based on the country or region where customers are located.
 
 Calculate Metrics: Calculate relevant metrics for each geographic cohort, such as customer retention rate, average order value, conversion rate, etc.
 
