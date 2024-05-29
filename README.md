@@ -26,3 +26,11 @@ Visualize Results: Create visualizations to visualize the behavior and performan
 
 Interpret and Analyze: Analyze the results of your cohort analysis to identify insights and opportunities for marketing optimization based on geographic location.
 ![Cohort Retention Rate Over time](https://github.com/IrinaMax/Cohort-analysis-for-Marketing-Data/assets/16123495/bead2af4-576b-44ed-a21c-aa6983846413)
+
+![Cohort Retention Rate by Country over time](https://github.com/IrinaMax/Cohort-analysis-for-Marketing-Data/assets/16123495/693264d7-70a5-468c-ad28-9f3497c598c2)
+
+![Cohort Retention Rate by Product Category over time](https://github.com/IrinaMax/Cohort-analysis-for-Marketing-Data/assets/16123495/6870215c-487b-43e0-875f-5b85dc28ba32)
+
+![Cohort Retention Rate by State and Product Category over time](https://github.com/IrinaMax/Cohort-analysis-for-Marketing-Data/assets/16123495/7ba264ae-1dba-46c2-919c-7d3798a6b7e8)
+
+
