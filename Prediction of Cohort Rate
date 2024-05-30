@@ -1,0 +1,111 @@
+> # To predict future values based on cohort analysis, we can use various time series forecasting methods or regression models. Here, we'll use a simple linear regression model to predict future retention rates based on historical cohort data.
+> 
+> # I used Linear regression Model predict the retention rate for the next few months.
+> library(dplyr)
+> library(ggplot2)
+> library(lubridate)
+> 
+> # To the show perpose I created here sythetic sample data, in the real wold the data have to be cleaned and preprocess.
+> set.seed(123)  # For reproducibility
+> cohort_data <- data.frame(
++   customer_id = 1:1000,
++   product_category = sample(c("Electronics", "Clothing", "Books", "Home & Kitchen"), 1000, replace = TRUE),
++   state = sample(c("CA", "NY", "TX", "FL"), 1000, replace = TRUE),
++   acquisition_date = sample(seq(as.Date('2020-01-01'), as.Date('2021-01-01'), by="day"), 1000, replace=TRUE),
++   transaction_date = sample(seq(as.Date('2020-01-01'), as.Date('2021-01-01'), by="day"), 1000, replace=TRUE),
++   revenue = runif(1000, min=0, max=100)
++ )
+> 
+> # Calculate cohort metrics. I calculate the retention rate for each acquisition month, product category, and state. 
+> cohort_metrics <- cohort_data %>%
++   mutate(acquisition_month = format(acquisition_date, "%Y-%m")) %>%
++   group_by(product_category, state, acquisition_month) %>%
++   summarize(
++     total_customers = n_distinct(customer_id),
++     total_revenue = sum(revenue),
++     retention_rate = sum(transaction_date >= acquisition_date + 30) / total_customers,  # Example: 30-day retention
++     .groups = 'drop'
++   ) %>%
++   ungroup() %>%
++   mutate(acquisition_month = as.Date(paste0(acquisition_month, "-01")))
+> cohort_metrics
+# A tibble: 194 × 6
+   product_category state acquisition_month total_customers total_revenue retention_rate
+   <chr>            <chr> <date>                      <int>         <dbl>          <dbl>
+ 1 Books            CA    2020-01-01                      3         136.           1    
+ 2 Books            CA    2020-02-01                      6         289.           1    
+ 3 Books            CA    2020-03-01                      4          78.8          0.25 
+ 4 Books            CA    2020-04-01                      6         245.           0.5  
+ 5 Books            CA    2020-05-01                      4          96.7          0.75 
+ 6 Books            CA    2020-06-01                      6         328.           0.833
+ 7 Books            CA    2020-07-01                      7         305.           0.571
+ 8 Books            CA    2020-08-01                      6         260.           0.167
+ 9 Books            CA    2020-09-01                      9         491.           0.222
+10 Books            CA    2020-10-01                      9         500.           0    
+# ℹ 184 more rows
+# ℹ Use `print(n = ...)` to see more rows
+> 
+> # Create linear regression model for each state and product category
+> predictions <- cohort_metrics %>%
++   group_by(product_category, state) %>%
++   do({
++     model <- lm(retention_rate ~ acquisition_month, data = .)
++     future_dates <- seq(max(.$acquisition_month) + months(1), by = "month", length.out = 6)
++     future_data <- data.frame(acquisition_month = future_dates)
++     future_data$retention_rate <- predict(model, newdata = future_data)
++     future_data$product_category <- unique(.$product_category)
++     future_data$state <- unique(.$state)
++     future_data
++   }) %>%
++   ungroup()  # Make sure to ungroup to simplify the data structure
+> 
+> # Ensure the predictions data frame has the correct structure
+> predictions <- predictions %>%
++   select(acquisition_month, retention_rate, product_category, state)
+> predictions
+# A tibble: 96 × 4
+   acquisition_month retention_rate product_category state
+   <date>                     <dbl> <chr>            <chr>
+ 1 2021-01-01                -0.131 Books            CA   
+ 2 2021-02-01                -0.221 Books            CA   
+ 3 2021-03-01                -0.302 Books            CA   
+ 4 2021-04-01                -0.391 Books            CA   
+ 5 2021-05-01                -0.477 Books            CA   
+ 6 2021-06-01                -0.567 Books            CA   
+ 7 2021-01-01                -0.163 Books            FL   
+ 8 2021-02-01                -0.247 Books            FL   
+ 9 2021-03-01                -0.322 Books            FL   
+10 2021-04-01                -0.406 Books            FL   
+# ℹ 86 more rows
+# ℹ Use `print(n = ...)` to see more rows
+> # Combine historical and predicted data for plotting
+> combined_data <- bind_rows(cohort_metrics, predictions)
+> combined_data
+# A tibble: 290 × 6
+   product_category state acquisition_month total_customers total_revenue retention_rate
+   <chr>            <chr> <date>                      <int>         <dbl>          <dbl>
+ 1 Books            CA    2020-01-01                      3         136.           1    
+ 2 Books            CA    2020-02-01                      6         289.           1    
+ 3 Books            CA    2020-03-01                      4          78.8          0.25 
+ 4 Books            CA    2020-04-01                      6         245.           0.5  
+ 5 Books            CA    2020-05-01                      4          96.7          0.75 
+ 6 Books            CA    2020-06-01                      6         328.           0.833
+ 7 Books            CA    2020-07-01                      7         305.           0.571
+ 8 Books            CA    2020-08-01                      6         260.           0.167
+ 9 Books            CA    2020-09-01                      9         491.           0.222
+10 Books            CA    2020-10-01                      9         500.           0    
+# ℹ 280 more rows
+# ℹ Use `print(n = ...)` to see more rows
+> # Visualize historical and predicted retention rates by state and product category
+> ggplot(combined_data, aes(x = acquisition_month, y = retention_rate, color = product_category)) +
++   geom_line() +
++   geom_point(data = predictions, shape = 1, size = 2) +
++   facet_grid(. ~ state, scales = "free_y") +  # Facet by state
++   labs(title = "Cohort Retention Rate by State and Product Category Over Time",
++        x = "Acquisition Month",
++        y = "Retention Rate",
++        color = "Product Category") +
++   theme_minimal() +
++   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+> 
+> 
