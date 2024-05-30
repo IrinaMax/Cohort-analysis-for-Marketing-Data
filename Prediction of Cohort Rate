@@ -16,6 +16,15 @@
 +   revenue = runif(1000, min=0, max=100)
 + )
 > 
+> cohort_data %>%  head
+  customer_id product_category state acquisition_date transaction_date  revenue
+1           1            Books    CA       2020-08-12       2020-05-31 99.87449
+2           2            Books    FL       2020-09-11       2020-02-06 55.52073
+3           3            Books    NY       2020-02-18       2020-12-20 33.41014
+4           4         Clothing    TX       2020-02-11       2020-04-10 66.86968
+5           5            Books    NY       2020-05-18       2020-02-05 87.40365
+6           6         Clothing    TX       2020-03-05       2020-02-14 97.79350
+> 
 > # Calculate cohort metrics. I calculate the retention rate for each acquisition month, product category, and state. 
 > cohort_metrics <- cohort_data %>%
 +   mutate(acquisition_month = format(acquisition_date, "%Y-%m")) %>%
