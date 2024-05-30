@@ -2,7 +2,7 @@
 Analysis of the behavior of different group of customers over time.
 
 Cohort analysis is a powerful technique used in marketing to understand and analyze the behavior of different groups of customers over time. It involves dividing customers into cohorts based on certain criteria (e.g., acquisition date, geographic location, product purchased) and then tracking their behavior and performance metrics over time.
-Here I perform cohort analysis for marketing using R by steps:
+Here I perform cohort analysis for marketing using R:
 
 1.Data Preparation: Gather data on customer transactions, interactions, or any other relevant metrics. Ensure that your data includes information such as customer IDs, acquisition dates, and transaction dates.
 
