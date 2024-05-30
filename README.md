@@ -25,6 +25,7 @@ Calculate Metrics: Calculate relevant metrics for each geographic cohort, such a
 Visualize Results: Create visualizations to visualize the behavior and performance of different geographic cohorts over time. This can include cohort retention curves, heatmaps, or line charts.
 
 Interpret and Analyze: Analyze the results of your cohort analysis to identify insights and opportunities for marketing optimization based on geographic location.
+
 ![Cohort Retention Rate Over time](https://github.com/IrinaMax/Cohort-analysis-for-Marketing-Data/assets/16123495/bead2af4-576b-44ed-a21c-aa6983846413)
 
 ![Cohort Retention Rate by Country over time](https://github.com/IrinaMax/Cohort-analysis-for-Marketing-Data/assets/16123495/693264d7-70a5-468c-ad28-9f3497c598c2)
@@ -33,4 +34,10 @@ Interpret and Analyze: Analyze the results of your cohort analysis to identify i
 
 ![Cohort Retention Rate by State and Product Category over time](https://github.com/IrinaMax/Cohort-analysis-for-Marketing-Data/assets/16123495/7ba264ae-1dba-46c2-919c-7d3798a6b7e8)
 
+### Prediction of the Cohort Rate using GLM
+To predict future values based on cohort analysis, we can use various time series forecasting methods or regression models. I will use a simple linear regression model to predict future retention rates based on historical cohort data.
+To the show perpose I created here sythetic sample data, in the real world the data have to be cleaned and preprocessed. I fit a linear regression model for each combination of product category and state to predict future retention rates for the next 6 month. Also I visualize the  prediction and historical Retantion Rate.
+This approach gives a basic prediction of future retention rates based on historical trends. For more accurate predictions I would consider more sophisticated models and methods such as ARIMA, exponential smoothing, or even machine learning models.
+
+![Cohort Rate Forecast GLM](https://github.com/IrinaMax/Cohort-analysis-for-Marketing-Data/assets/16123495/8e5410f4-90bf-49be-8da7-52724ed56c3a)
 
