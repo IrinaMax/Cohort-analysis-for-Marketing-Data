@@ -137,7 +137,7 @@ cohort_data <- data.frame(
   revenue = runif(1000, min=0, max=100)
 )
 
-# Calculate cohort metrics (e.g., retention rate) based on product category and state
+# Calculate cohort metrics (retention rate) based on product category and state
 cohort_metrics <- cohort_data %>%
   mutate(acquisition_month = format(acquisition_date, "%Y-%m")) %>%
   group_by(product_category, state, acquisition_month) %>%
