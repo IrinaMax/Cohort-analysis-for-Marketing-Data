@@ -47,3 +47,10 @@ For the script User Ingagement cohort analysis I created the synthetic data  rep
 Here Visualisation plot.
 
 ![Cohort Analysis based on User engagement](https://github.com/IrinaMax/Cohort-analysis-for-Marketing-Data/assets/16123495/a785eca2-626d-4263-a40b-c2321f6f9348)
+
+My cript with synthetic user engagement data perform just simple model cohort analysis as ETS for forecasting future 
+retention rates, and visualizes the results. Remember, in real project more interesting  time series can be used.
+In my experience I leverage VAR multy time series model which is give amazing result for correctly correlated matrix.
+The plot shows the historical retention rates and the predicted future retention rates for the most recent cohort.
+
+![Prediction of User engagement cohort Analysis](https://github.com/IrinaMax/Cohort-analysis-for-Marketing-Data/assets/16123495/3d0d5235-9df0-4ad0-876e-d2f94814bbe3)
