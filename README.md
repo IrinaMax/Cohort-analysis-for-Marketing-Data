@@ -41,3 +41,7 @@ This approach gives a basic prediction of future retention rates based on histor
 
 ![Cohort Rate Forecast GLM](https://github.com/IrinaMax/Cohort-analysis-for-Marketing-Data/assets/16123495/8e5410f4-90bf-49be-8da7-52724ed56c3a)
 
+For the script User Ingagement cohort analysis I created the synthetic data  representing user engagement activities and analysis where we can see how engagement changes over time for different cohorts.
+Here Visualisation plot.
+
+![Cohort Analysis based on User engagement](https://github.com/IrinaMax/Cohort-analysis-for-Marketing-Data/assets/16123495/a785eca2-626d-4263-a40b-c2321f6f9348)
