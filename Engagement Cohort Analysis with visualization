@@ -1,0 +1,122 @@
+> #-------------May 30 2024
+> #This script generates synthetic data, prepares it for cohort analysis, calculates engagement metrics, and visualizes the results. 
+> #The plot shows how user engagement (measured by retention rate) changes over time for different cohorts.
+> 
+> ## Load necessary libraries
+> library(dplyr)
+> library(ggplot2)
+> library(lubridate)
+> 
+> # Set seed for reproducibility
+> set.seed(123)
+> 
+> # Generate synthetic data. 
+> user_ids <- 1:1000
+> signup_dates <- as.Date('2023-01-01') + sample(0:364, 1000, replace = TRUE)
+> engagement_dates <- lapply(signup_dates, function(x) x + sample(0:180, sample(1:10, 1), replace = TRUE))
+> engagement_counts <- sapply(engagement_dates, length)
+> 
+> # Create a data frame
+> synthetic_data <- data.frame(
++   user_id = rep(user_ids, engagement_counts),
++   signup_date = rep(signup_dates, engagement_counts),
++   engagement_date = unlist(engagement_dates),
++   stringsAsFactors = FALSE
++ )
+> 
+> # View synthetic data. 
+> # In the real world data need to be preproceced to retrive or creat features fo the metrics useful fo analysis.
+> head(synthetic_data)
+  user_id signup_date engagement_date
+1       1  2023-06-28           19646
+2       1  2023-06-28           19575
+3       1  2023-06-28           19654
+4       1  2023-06-28           19702
+5       2  2023-01-14           19442
+6       2  2023-01-14           19384
+> # Add cohort column based on signup month
+> synthetic_data <- synthetic_data %>%
++   mutate(cohort = format(signup_date, "%Y-%m"))
+> 
+> # Calculate the period (in months) since the signup date for each engagement
+> synthetic_data <- synthetic_data %>%
++   mutate(period = as.integer(difftime(engagement_date, signup_date, units = "days") / 30))
+> 
+> # View data with cohort and period
+> head(synthetic_data)
+  user_id signup_date engagement_date  cohort period
+1       1  2023-06-28           19646 2023-06   -651
+2       1  2023-06-28           19575 2023-06   -651
+3       1  2023-06-28           19654 2023-06   -651
+4       1  2023-06-28           19702 2023-06   -651
+5       2  2023-01-14           19442 2023-01   -645
+6       2  2023-01-14           19384 2023-01   -645
+> #3
+> # Calculate the number of active users in each cohort and period
+> cohort_analysis <- synthetic_data %>%
++   group_by(cohort, period) %>%
++   summarise(active_users = n_distinct(user_id)) %>%
++   ungroup()
+`summarise()` has grouped output by 'cohort'. You can override using the `.groups` argument.
+> cohort_analysis
+# A tibble: 24 × 3
+   cohort  period active_users
+   <chr>    <int>        <int>
+ 1 2023-01   -646           26
+ 2 2023-01   -645           62
+ 3 2023-02   -647           20
+ 4 2023-02   -646           61
+ 5 2023-03   -648           23
+ 6 2023-03   -647           67
+ 7 2023-04   -649           22
+ 8 2023-04   -648           62
+ 9 2023-05   -650           16
+10 2023-05   -649           60
+# ℹ 14 more rows
+# ℹ Use `print(n = ...)` to see more rows
+> # Calculate the total number of users in each cohort
+> total_users_cohort <- synthetic_data %>%
++   group_by(cohort) %>%
++   summarise(total_users = n_distinct(user_id)) %>%
++   ungroup()
+> total_users_cohort
+# A tibble: 12 × 2
+   cohort  total_users
+   <chr>         <int>
+ 1 2023-01          88
+ 2 2023-02          81
+ 3 2023-03          90
+ 4 2023-04          84
+ 5 2023-05          76
+ 6 2023-06          95
+ 7 2023-07          89
+ 8 2023-08          90
+ 9 2023-09          70
+10 2023-10          80
+11 2023-11          82
+12 2023-12          75
+> # Merge to get the retention rate
+> cohort_analysis <- cohort_analysis %>%
++   left_join(total_users_cohort, by = "cohort") %>%
++   mutate(retention_rate = active_users / total_users * 100)
+> 
+> # View the cohort analysis data
+> head(cohort_analysis)
+# A tibble: 6 × 5
+  cohort  period active_users total_users retention_rate
+  <chr>    <int>        <int>       <int>          <dbl>
+1 2023-01   -646           26          88           29.5
+2 2023-01   -645           62          88           70.5
+3 2023-02   -647           20          81           24.7
+4 2023-02   -646           61          81           75.3
+5 2023-03   -648           23          90           25.6
+6 2023-03   -647           67          90           74.4
+> #4
+> # Plot the cohort retention rate
+> ggplot(cohort_analysis, aes(x = period, y = retention_rate, color = cohort)) +
++   geom_line() +
++   labs(title = "User Engagement Cohort Analysis",
++        x = "Months Since Signup",
++        y = "Retention Rate (%)") +
++   theme_minimal() +
++   theme(legend.position = "bottom")
